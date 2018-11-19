@@ -9,32 +9,32 @@ import javax.imageio.ImageIO;
 public class Background{
 	private int x, y;
 	private int a,b,c, contador=0;
-	private BufferedImage  imagen, imagen2, imagen3; 
+	private BufferedImage  imagen, imagen2, imagen3;
 
-	public Background(){
+	public Background(String bg){
 		x=300;
 		y=40;
 		a=0;
 		b=a+900;
 		c=b+900;
-	    String nomImagen = "background.png";
+	    String nomImagen = bg;
 	    File archImagen = new File(nomImagen);
         try {
             imagen = ImageIO.read(archImagen);
         } catch (IOException e) {
-            
+
             e.printStackTrace();
         }
         try {
             imagen2 = ImageIO.read(archImagen);
         } catch (IOException e) {
-            
+
             e.printStackTrace();
         }
         try {
             imagen3 = ImageIO.read(archImagen);
         } catch (IOException e) {
-            
+
             e.printStackTrace();
         }
 
@@ -63,12 +63,12 @@ public class Background{
 		draw.drawImage(imagen2,b,0,900,600,null);
 		draw.drawImage(imagen3,c,0,900,600,null);
 	}
-	public void avanza()
+	public void avanza(int dist)
 	{
-		a--;
-		b--;
-		c--;
-		contador++;
+		a= a-dist;
+		b=b-dist;
+		c=c-dist;
+		contador=contador+dist;
 		if(contador==900)
 		{
 			a=c+900;

@@ -8,19 +8,19 @@ import javax.imageio.ImageIO;
 public class Personaje extends Object{
 	private int estado, velocidad, fps;
 	boolean corre, salta, ataca;
-	private BufferedImage[] scorrer, satacar, ssaltar; 
-	
+	private BufferedImage[] scorrer, satacar, ssaltar;
+
 	public Personaje(){
 		super(40,455);
 		estado = 0;
 		velocidad = 0;
-		fps = 4;
+		fps = 6;
 		corre = true;
 		salta = false;
 		ataca = false;
 		scorrer = new BufferedImage[5];
 		for(int i = 0; i < 5; i++){
-			String nomImagen = "personaje/3_RUN_00" + i + ".png";
+			String nomImagen = "../personaje/3_RUN_00" + i + ".png";
 		    File archImagen = new File(nomImagen);
 	        try {
 	            scorrer[i] = ImageIO.read(archImagen);
@@ -30,7 +30,7 @@ public class Personaje extends Object{
 		}
 		satacar = new BufferedImage[5];
 		for(int i = 0; i < 5; i++){
-			String nomImagen = "personaje/5_ATTACK_00" + i + ".png";
+			String nomImagen = "../personaje/5_ATTACK_00" + i + ".png";
 		    File archImagen = new File(nomImagen);
 	        try {
 	            satacar[i] = ImageIO.read(archImagen);
@@ -40,7 +40,7 @@ public class Personaje extends Object{
 		}
 		ssaltar = new BufferedImage[5];
 		for(int i = 0; i < 5; i++){
-			String nomImagen = "personaje/4_JUMP_00" + i + ".png";
+			String nomImagen = "../personaje/4_JUMP_00" + i + ".png";
 		    File archImagen = new File(nomImagen);
 	        try {
 	            ssaltar[i] = ImageIO.read(archImagen);
@@ -50,10 +50,12 @@ public class Personaje extends Object{
 		}
 	}
 	public void atacar(){
-		corre = false;
-		salta = false;
-		ataca = true;
-		estado = 0;
+		if(!salta){
+			corre = false;
+			salta = false;
+			ataca = true;
+			estado = 0;
+		}
 	}
 	public void saltar(){
 		if(!salta){
@@ -71,10 +73,10 @@ public class Personaje extends Object{
 			estado ++;
 			if(salta){
 				if(estado < 3){
-					y = y-20;
+					y = y-60;
 				}
 				else if(estado > 3){
-					y = y+20;
+					y = y+60;
 				}
 			}
 			if(estado == 5){
@@ -82,9 +84,9 @@ public class Personaje extends Object{
 				corre = true;
 				salta = false;
 				ataca = false;
-				fps = 4;
+				fps = 6;
 			}
-		}		
+		}
 	}
 	public void paint(Graphics g){
 		Graphics2D draw= (Graphics2D) g;
@@ -95,4 +97,11 @@ public class Personaje extends Object{
 		else if(salta)
 			draw.drawImage(ssaltar[estado],x,y,100,100,null);
 	}
+	public boolean getAttack() {
+		if (ataca) {
+			return true;
+		}
+		return false;
+	}
+
 }

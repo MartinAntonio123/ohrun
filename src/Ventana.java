@@ -3,40 +3,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
-public class Ventana extends JFrame implements KeyListener{
-	/**
-	 * 
-	 */
+public class Ventana extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private Canvas Micanvas;
-	
+	private Canvasabs micanvasm, micanvasg;
+	private Music myMusic;
+	private String background;
+
 	Ventana(){
-		this.addKeyListener(this);
 		setLayout(new BorderLayout());
-		Micanvas = new Canvas();
-		add(Micanvas, BorderLayout.CENTER);	
-		Micanvas.addKeyListener(Micanvas);
-		Micanvas.setFocusable(true);
-	    Micanvas.gameStart();
+		background = "../bg/background.png";
+		micanvasm = new Canvasg(background,this);
+		add(micanvasm, BorderLayout.CENTER);
+		micanvasm.addKeyListener(micanvasm);
+		micanvasm.setFocusable(true);
+	  micanvasm.gameStart();
+		myMusic = new Music();
+		myMusic.start();
 	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void setPlay(){
+		this.micanvasm = new Canvasm(background, this);
 	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void setMenu(){
+		this.micanvasm = new Canvasm(background, this);
 	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
