@@ -66,6 +66,16 @@ public class Personaje extends Object{
 			fps = 6;
 		}
 	}
+	public void retroceder(){
+		if(x > 40){
+			x = x - 2;
+		}
+	}
+	public void avanzarr(){
+		if(x < 800){
+			x = x + 2;
+		}
+	}
 	public void avanzar(){
 		velocidad ++;
 		if(velocidad == fps){

@@ -8,8 +8,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
-public abstract class Canvasabs extends JPanel implements Runnable, MouseListener, KeyListener
+public abstract class Canvasabs extends JPanel implements Runnable, MouseListener
 {
     public abstract void paint(Graphics g);
     public abstract void gameStart();
+    public abstract void keyPressedAux(int code);
 }

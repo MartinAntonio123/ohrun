@@ -42,15 +42,15 @@ public class EnemigoMobil extends Object{
 	public void paint(Graphics g){
 		Graphics2D draw= (Graphics2D) g;
 		if(vivo)
-			draw.drawImage(scorrer[estado],x,y,-100,100,null);
+			draw.drawImage(scorrer[estado],x,y,-150,100,null);
 		else
-			draw.drawImage(smorir[estado],x,y,-100,100,null);
+			draw.drawImage(smorir[estado],x,y,-150,100,null);
 	}
   public boolean chocar(Personaje miPersonaje){
     if(!this.vivo){
       return false;
     }
-    if((miPersonaje.getX()+100)>(this.x)&&((miPersonaje.getX())<(this.x+100))){
+    if((miPersonaje.getX()+100)>(this.x-50)&&((miPersonaje.getX())<(this.x))){
       if(((miPersonaje.getY()+100)>(this.y))&&((miPersonaje.getY())<(this.y+100))){
         if (miPersonaje.getAttack()) {
           vivo = false;

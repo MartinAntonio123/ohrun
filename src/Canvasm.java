@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
-public class Canvasm extends Canvasabs implements Runnable, MouseListener, KeyListener {
+public class Canvasm extends Canvasabs implements Runnable, MouseListener {
 
 	public static int WIDTH = 900;
 	public static int HEIGHT = 600;
@@ -23,14 +23,15 @@ public class Canvasm extends Canvasabs implements Runnable, MouseListener, KeyLi
 	private Image offScreenImageDrawed = null;
 	private Graphics offScreenGraphicsDrawed = null;
   private Ventana myVentana;
+	private int change;
 
 
 	public Canvasm(String bg, Ventana ventana){
 		super();
 		this.addMouseListener(this);
-		this.addKeyListener(this);
     myVentana = ventana;
 		myBackground = new Background(bg);
+		change = 1;
 	}
 	public void gameStart(){
 		if(!running || (thread == null)){
@@ -38,6 +39,10 @@ public class Canvasm extends Canvasabs implements Runnable, MouseListener, KeyLi
 	        thread = new Thread(this);
 	        thread.start();
 		}
+	}
+	public void gameStop(){
+			running = false;
+      thread.stop();
 	}
 	@Override
 	public void run() {
@@ -71,6 +76,15 @@ public class Canvasm extends Canvasabs implements Runnable, MouseListener, KeyLi
 	    offScreenGraphicsDrawed.setColor(Color.white);
 			offScreenGraphicsDrawed.fillRect(0, 0, WIDTH, HEIGHT);
       myBackground.paint(offScreenGraphicsDrawed);
+			offScreenGraphicsDrawed.setFont(new Font("Verdana",1,20));
+			offScreenGraphicsDrawed.setColor(Color.blue);
+			offScreenGraphicsDrawed.fillRect(320, 170, 280, 50);
+			offScreenGraphicsDrawed.setColor(Color.white);
+			offScreenGraphicsDrawed.drawString("Click to start", 360, 200);
+			offScreenGraphicsDrawed.setColor(Color.blue);
+			offScreenGraphicsDrawed.fillRect(320, 370, 280, 50);
+			offScreenGraphicsDrawed.setColor(Color.white);
+			offScreenGraphicsDrawed.drawString("space to change bg", 360, 400);
 			g.drawImage(offScreenImageDrawed, 0, 0, null);
     }
 	public void update(Graphics g){
@@ -102,19 +116,24 @@ public class Canvasm extends Canvasabs implements Runnable, MouseListener, KeyLi
 		// TODO Auto-generated method stub
 
 	}
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-
-	}
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyPressedAux(int code) {
+    change ++;
+		String aux ="../bg/background.png";
+    if(change == 4)
+    change = 1;
+    if (change == 1) {
+      	myBackground = new Background("../bg/background.png");
+				aux = "../bg/background.png";
+    }
+    if (change == 2) {
+      	myBackground = new Background("../bg/background1.png");
+				aux = "../bg/background1.png";
+    }
+    if (change == 3) {
+      	myBackground = new Background("../bg/background2.png");
+				aux = "../bg/background2.png";
+    }
+		myVentana.setBg(aux);
 	}
 
 }

@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
-public class Canvasg extends Canvasabs implements Runnable, MouseListener, KeyListener {
+public class Canvasg extends Canvasabs implements Runnable, MouseListener {
 
 	public static int WIDTH = 900;
 	public static int HEIGHT = 600;
@@ -26,17 +26,19 @@ public class Canvasg extends Canvasabs implements Runnable, MouseListener, KeyLi
   private EnemigoSStatic enemigosEstaticos;
   private EnemigoSMoviles enemigosMoviles;
   private Ventana myVentana;
+  private int recordactual, counter, recordtotal;
+  private Record myrecord;
 
 
 	public Canvasg(String bg, Ventana ventana){
 		super();
 		this.addMouseListener(this);
-		this.addKeyListener(this);
     myVentana = ventana;
 		myBackground = new Background(bg);
 		myPersonaje = new Personaje();
     enemigosEstaticos = new EnemigoSStatic();
     enemigosMoviles = new EnemigoSMoviles();
+    myrecord = new Record();
 	}
 	public void gameStart(){
 		if(!running || (thread == null)){
@@ -44,6 +46,10 @@ public class Canvasg extends Canvasabs implements Runnable, MouseListener, KeyLi
 	        thread = new Thread(this);
 	        thread.start();
 		}
+	}
+  public void gameStop(){
+			running = false;
+      thread.stop();
 	}
 	@Override
 	public void run() {
@@ -71,11 +77,18 @@ public class Canvasg extends Canvasabs implements Runnable, MouseListener, KeyLi
 		myPersonaje.avanzar();
     enemigosEstaticos.avanza(8);
     if(enemigosEstaticos.choque(this.myPersonaje)){
-      System.out.println("choque");
+      //System.out.println("choque");
+      endgame();
     }
     enemigosMoviles.avanza(2);
     if(enemigosMoviles.choque(this.myPersonaje)){
-      System.out.println("choque mobil");
+      //System.out.println("choque mobil");
+      endgame();
+    }
+    counter++;
+    if (counter == 60) {
+      recordactual++;
+      counter = 0;
     }
 	}
     public void paint (Graphics g){
@@ -89,50 +102,62 @@ public class Canvasg extends Canvasabs implements Runnable, MouseListener, KeyLi
       myPersonaje.paint(offScreenGraphicsDrawed);
       enemigosEstaticos.paint(offScreenGraphicsDrawed);
       enemigosMoviles.paint(offScreenGraphicsDrawed);
+      if (!running) {
+        offScreenGraphicsDrawed.setFont(new Font("Verdana",1,20));
+  			offScreenGraphicsDrawed.setColor(Color.blue);
+  			offScreenGraphicsDrawed.fillRect(320, 170, 280, 50);
+  			offScreenGraphicsDrawed.setColor(Color.white);
+  			offScreenGraphicsDrawed.drawString("best: "+ recordtotal, 360, 200);
+  			offScreenGraphicsDrawed.setColor(Color.blue);
+  			offScreenGraphicsDrawed.fillRect(320, 370, 280, 50);
+  			offScreenGraphicsDrawed.setColor(Color.white);
+  			offScreenGraphicsDrawed.drawString("yours: " + recordactual, 360, 400);
+      }
 			g.drawImage(offScreenImageDrawed, 0, 0, null);
     }
 	public void update(Graphics g){
 		paint(g);
 	}
-
+  public void endgame(){
+    System.out.println(recordactual);
+		running = false;
+    myrecord.setRecord(recordactual);
+    recordtotal = myrecord.getRecord();
+    repaint();
+	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		myPersonaje.atacar();
 	}
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+  public void mouseEntered(MouseEvent arg0) {
+    // TODO Auto-generated method stub
 
-	}
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+  }
+  @Override
+  public void mouseExited(MouseEvent arg0) {
+    // TODO Auto-generated method stub
 
-	}
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+  }
+  @Override
+  public void mousePressed(MouseEvent arg0) {
+    // TODO Auto-generated method stub
 
-	}
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+  }
+  @Override
+  public void mouseReleased(MouseEvent arg0) {
+    // TODO Auto-generated method stub
 
+  }
+  public void keyPressedAux(int code) {
+    if (code == 38) {
+      myPersonaje.saltar();
+    }
+		else if (code == 39) {
+      myPersonaje.avanzarr();
+    }
+    else if (code == 37) {
+      myPersonaje.retroceder();
+    }
 	}
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		myPersonaje.saltar();
-	}
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

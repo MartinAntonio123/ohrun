@@ -110,11 +110,11 @@ public class EnemigoSMoviles extends Canvas{
 	public void anadir(){
     int randomInt = random.nextInt(3) + 1;
     if(randomInt == 1)
-		this.lista.add(new EnemigoMobil(900, 460, scorrera, smorira));
+		this.lista.add(new EnemigoMobil(1000, 460, scorrera, smorira));
     else if(randomInt == 2)
-    lista.add(new EnemigoMobil(900, 460, scorrerb, smorirb));
+    lista.add(new EnemigoMobil(1000, 460, scorrerb, smorirb));
     else
-    lista.add(new EnemigoMobil(900, 460, scorrerc, smorirc));
+    lista.add(new EnemigoMobil(1000, 460, scorrerc, smorirc));
   	}
 	public boolean choque(Personaje miPersonaje){
     Iterator<EnemigoMobil> iterator = lista.listIterator();
